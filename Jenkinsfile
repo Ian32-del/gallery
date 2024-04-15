@@ -21,6 +21,18 @@ pipeline {
                 sh 'npm install'
             }
         }
+        stage ('Send Slack Notification'){
+            when {
+                expression { currentBuild.result == 'SUCCESS'}
+            }
+            steps {
+                script {
+                    def buildId = env.BUILD_ID
+                    def slackMessage = "Build #$buildId deployed successfully! "
+                    slackSend(channel: '#jenkins', message:slackMessage)
+                }
+            }
+        }
         
         
         
