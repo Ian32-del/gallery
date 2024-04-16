@@ -23,7 +23,7 @@ pipeline {
         }
         stage ('Send Slack Notification'){
             when {
-                echo "Build result: ${currentBuild.result}"
+                
                 expression { currentBuild.result == 'SUCCESS'}
             }
             steps {
