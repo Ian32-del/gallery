@@ -27,6 +27,7 @@ pipeline {
             }
             steps {
                 script {
+                    echo "Sending Slack notification . . ."
                     def buildId = env.BUILD_ID
                     def slackMessage = "Build #$buildId deployed successfully! "
                     slackSend(channel: '#jenkins', message:slackMessage)
