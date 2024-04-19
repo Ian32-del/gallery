@@ -4,7 +4,7 @@ pipeline {
     tools {nodejs 'nodejs'}
     
     stages {
-        stage ('Clone Repository') {
+        stage ('Clone Respository') {
             steps {
                 git branch: 'master', url:'https://github.com/Ian32-del/gallery'
             }
@@ -32,14 +32,14 @@ pipeline {
                 }
             }
         }
-        
-        post {
-            failure {
-                emailext attachLog: true,
-                body: "Build failed for Job ${env.JOB_NAME}:${env.BUILD_NUMBER}. View console output at ${env.BUILD_URL}",
-                subject: "Status: FAILURE - Job '${env.JOB_NAME}:${env.BUILD_NUMBER}'",
-                to: 'ian.odhiambo@student.moringaschool.com'
-            }
+    }
+    
+    post {
+        failure {
+            emailext attachLog: true,
+            body: "Build failed for Job ${env.JOB_NAME}:${env.BUILD_NUMBER}. View console output at ${env.BUILD_URL}",
+            subject: "Status: FAILURE - Job '${env.JOB_NAME}:${env.BUILD_NUMBER}'",
+            to: 'ian.odhiambo@student.moringaschool.com'
         }
     }
 }
