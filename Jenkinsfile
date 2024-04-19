@@ -3,15 +3,13 @@ pipeline {
     
     tools {nodejs 'nodejs'}
     
-    
-    
     stages {
-        stage ('Clone Respository') {
+        stage ('Clone Repository') {
             steps {
                 git branch: 'master', url:'https://github.com/Ian32-del/gallery'
             }
         }
-        stage ('Install dependencies') {
+        stage ('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
@@ -21,20 +19,20 @@ pipeline {
                 sh 'npm install'
             }
         }
-        stage ('Send Slack Notification'){
+        stage ('Send Slack Notification') {
             when {
-                
-                expression { currentBuild.result == 'SUCCESS'}
+                expression { currentBuild.result == 'SUCCESS' }
             }
             steps {
                 script {
                     echo "Sending Slack notification . . ."
                     def buildId = env.BUILD_ID
                     def slackMessage = "Build #$buildId deployed successfully! "
-                    slackSend(channel: '#jenkins', message:slackMessage)
+                    slackSend(channel: '#jenkins', message: slackMessage)
                 }
             }
         }
+        
         post {
             failure {
                 emailext attachLog: true,
@@ -43,9 +41,5 @@ pipeline {
                 to: 'ian.odhiambo@student.moringaschool.com'
             }
         }
-        
-        
-        
     }
-    
 }
